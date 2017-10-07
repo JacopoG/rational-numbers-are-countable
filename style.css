@@ -1,0 +1,13 @@
+html,
+body {
+    background: #e0e0e0;
+    width: 100%;
+}
+
+canvas {
+   /* border: 1px solid #000; */
+    background: white;
+    display: block;
+    margin: 0 auto;
+}
+
