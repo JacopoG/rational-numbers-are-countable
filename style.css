@@ -1,5 +1,6 @@
 html,
 body {
+    font-family: 'Lato', sans-serif;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -21,7 +22,6 @@ canvas {
     position: absolute;
     right: 0;
     top: 8vh;
-    width: 15vw; 
     text-align: center;
 }
 
@@ -30,6 +30,8 @@ canvas {
     font-size: 28px;
     max-width: 50px;
     max-height: 50px;
+    min-width: 30px;
+    min-height: 30px;
     text-align: center;
     vertical-align: middle;
 }
@@ -57,10 +59,18 @@ canvas {
 }
 
 .velocity-form h3 {
-    font-family: arial;
     font-weight: normal;
     text-align: center;
     color: #005fcb99;
     font-size: 28px;
     margin: 0 0 10px;
 }
+
+.credits {
+    color: black;
+    position: absolute;
+    bottom: 1vw;
+    right: 1vw;
+    color: #adadad;
+}
+

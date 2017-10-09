@@ -43,6 +43,7 @@ var Animation = (function () {
         t.drawNaturalsStraightLine();
         t.drawAllPlaceholder(placeholderDistance);
         t.drawFraction(0, 1);
+        t.updateVelocity();
         t.start();
     };
 
@@ -66,7 +67,7 @@ var Animation = (function () {
         ctx.lineTo(x, yBottom);
 
         if (!WithoutNumber) {
-            ctx.font = '20px Arial';
+            ctx.font = '20px Lato';
             ctx.textAlign = "center";
             ctx.fillText(n, x, yBottom + 30);
         }
@@ -93,7 +94,7 @@ var Animation = (function () {
 
     t.drawFraction = function (num, den) {
         ctx.clearRect(width * 0.1 - 30, height * 0.1 - 30, 100, 100);
-        ctx.font = "30px Arial";
+        ctx.font = "30px Lato";
         ctx.textAlign = "center";
         ctx.fillText(num, width * 0.1, height * 0.1);
         ctx.fillText(den, width * 0.1, height * 0.1 + 35);
