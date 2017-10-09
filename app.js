@@ -5,7 +5,9 @@ var Animation = (function () {
         canvas,
         ctx,
         height,
-        width;
+        width,
+        placeholderDistance = 100,
+        velocity = 1000;
 
 
 
@@ -15,6 +17,7 @@ var Animation = (function () {
         ctx = canvas.getContext('2d');
         height = window.innerHeight;
         width = window.innerWidth;
+        placeholderDistance = width / 18;
 
         canvas.height = height;
         canvas.width = width;
@@ -23,7 +26,7 @@ var Animation = (function () {
         ctx.lineWidth = 4;
 
         t.drawNaturalsStraightLine();
-        t.drawAllPlaceholder(100);
+        t.drawAllPlaceholder(placeholderDistance);
         t.drawFraction(0, 1);
         t.start();
     };
@@ -92,7 +95,7 @@ var Animation = (function () {
 
     t.drawRational = function (n) {
         var x, y;
-        x = n * 100 + 50 * 4;
+        x = (n + 2) * placeholderDistance;
         y = height/2;
 
         ctx.lineWidth = 1;
@@ -114,8 +117,8 @@ var Animation = (function () {
         
         if (current == 0) {
 
-            t.drawRational(1);
-            console.log(1);
+            t.drawRational(0);
+            console.log("0/1");
 
         }
         else {
@@ -125,13 +128,14 @@ var Animation = (function () {
             den = Diagonale.getDenominator();
             t.drawRational(num/den);
             t.drawFraction(num, den);
-            console.log(num/den);
+            //console.log(num/den);
+            console.log(num + "/" + den);
 
         }
 
         return window.setTimeout(
             function () {t.start(current + 1)},
-            100
+            velocity
         );
 
     };
