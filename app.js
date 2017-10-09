@@ -1,5 +1,20 @@
 "use strict"
 
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    Animation.init();
+    document.querySelector(".velocity-input").addEventListener("change", function () {
+        console.log("change");
+        Animation.updateVelocity();
+    });
+
+
+});
+
+
+
 var Animation = (function () {
     var t = {},
         canvas,
@@ -128,7 +143,6 @@ var Animation = (function () {
             den = Diagonale.getDenominator();
             t.drawRational(num/den);
             t.drawFraction(num, den);
-            //console.log(num/den);
             console.log(num + "/" + den);
 
         }
@@ -142,14 +156,16 @@ var Animation = (function () {
 
 
 
+    t.updateVelocity = function () {
+        var factor = document.querySelector(".velocity-input").value;
+        velocity = 1000 * (1,1 - factor/10);
+        console.log(velocity);
+    }
+
+
+
     return t;
 }());
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    Animation.init();
-
-});
 
 
 
@@ -195,5 +211,27 @@ var Diagonale = {
     getDenominator: function () {
         return this.currentPosition.y;
     }
+}
+
+
+
+function slow () {
+    var input = document.querySelector(".velocity-input");
+    if (input.value > 1) {
+        input.value = parseInt(input.value) - 1;
+        input.dispatchEvent(new Event('change'));
+    }
+    console.log("slow");
+}
+
+
+
+function fast () {
+    var input = document.querySelector(".velocity-input");
+    if (input.value < 10) {
+        input.value = parseInt(input.value) + 1;
+        input.dispatchEvent(new Event('change'));
+    }
+    console.log("fast");
 }
 

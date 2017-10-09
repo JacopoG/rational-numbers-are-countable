@@ -7,8 +7,60 @@ body {
 
 canvas {
    /* border: 1px solid #000; */
-    background: white;
+    background: #f6f6f6;
     display: block;
     margin: 0 auto;
 }
 
+
+
+.velocity-form {
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    right: 0;
+    top: 8vh;
+    width: 15vw; 
+    text-align: center;
+}
+
+.button,
+.velocity-input {
+    font-size: 28px;
+    max-width: 50px;
+    max-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.velocity-input {
+    background: #f6f6f6;
+    border: 0;
+    color: #005fcb99;
+    height: 5vw;
+    width: 5vw;
+    margin: 0;
+    padding: 0;
+    -moz-appearance: textfield;
+}
+
+.button {
+    border: 0;
+    background: #005fcb99;
+    color: #f6f6f6;
+    font-weight: bold;
+    width: 5vw;
+    height: 5vw;
+    margin: 0;
+    padding: 0;
+}
+
+.velocity-form h3 {
+    font-family: arial;
+    font-weight: normal;
+    text-align: center;
+    color: #005fcb99;
+    font-size: 28px;
+    margin: 0 0 10px;
+}
