@@ -39,7 +39,7 @@ canvas {
 .velocity-input {
     background: #f6f6f6;
     border: 0;
-    color: #005fcb99;
+    color: #629BDC;
     height: 5vw;
     width: 5vw;
     margin: 0;
@@ -47,9 +47,15 @@ canvas {
     -moz-appearance: textfield;
 }
 
+.velocity-input::-webkit-outer-spin-button,
+.velocity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
 .button {
     border: 0;
-    background: #005fcb99;
+    background: #629BDC;
     color: #f6f6f6;
     font-weight: bold;
     width: 5vw;
@@ -61,7 +67,7 @@ canvas {
 .velocity-form h3 {
     font-weight: normal;
     text-align: center;
-    color: #005fcb99;
+    color: #629BDC;
     font-size: 28px;
     margin: 0 0 10px;
 }
