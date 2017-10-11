@@ -218,10 +218,12 @@ var Diagonale = {
 
 function slow () {
     var input = document.querySelector(".velocity-input");
+
     if (input.value > 1) {
         input.value = parseInt(input.value) - 1;
-        input.dispatchEvent(new Event('change'));
+        dispatchChangeEvent();
     }
+
     console.log("slow");
 }
 
@@ -229,10 +231,22 @@ function slow () {
 
 function fast () {
     var input = document.querySelector(".velocity-input");
+
     if (input.value < 10) {
         input.value = parseInt(input.value) + 1;
-        input.dispatchEvent(new Event('change'));
+        dispatchChangeEvent();
     }
+
     console.log("fast");
+}
+
+function dispatchChangeEvent () {
+    var input = document.querySelector(".velocity-input"),
+        event = document.createEvent('Event');
+
+    event.initEvent("change", false, true);
+    input.dispatchEvent(event);
+    //input.dispatchEvent(new Event('change')); IE not support, obviously
+
 }
 
