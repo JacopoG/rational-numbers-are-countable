@@ -22,7 +22,8 @@ var Animation = (function () {
         height,
         width,
         placeholderDistance = 100,
-        velocity = 1000;
+        velocity = 1000,
+        dots = [];
 
 
 
@@ -94,9 +95,9 @@ var Animation = (function () {
 
     t.drawFraction = function (num, den) {
         ctx.clearRect(width * 0.1 - 30, height * 0.1 - 30, 100, 100);
+        ctx.fillStyle = "#adadad";
         ctx.font = "30px Lato";
-        ctx.textAlign = "center";
-        ctx.fillText(num, width * 0.1, height * 0.1);
+        ctx.textAlign = "center"; ctx.fillText(num, width * 0.1, height * 0.1);
         ctx.fillText(den, width * 0.1, height * 0.1 + 35);
         ctx.beginPath();
         ctx.strokeStyle = "#adadad";
@@ -118,8 +119,85 @@ var Animation = (function () {
         ctx.strokeStyle = '#005fcb';
         ctx.beginPath();
         t.drawPlaceholder(x, n, true);
+        t.drawDot(n);
 
         ctx.fill();
+    };
+
+
+
+    var nearToDots = function (x, y) {
+        var near = false;
+        dots.forEach( function (dot, index) {
+            var distance;
+            distance = Math.sqrt(Math.pow(Math.abs(dot.x - x), 2) + Math.pow(Math.abs(dot.y - y), 2));
+            //console.log(dot);
+            if (distance < 10) {
+                //console.log(distance);
+                near = true;
+            }
+        });
+        
+        return near;
+    };
+
+
+
+    t.drawDot = function (n, y, transparence) {
+        var x, rgb;
+        transparence = (transparence == undefined) ? 5 * 10 : transparence;
+        x = (n + 2) * placeholderDistance;
+        y = y || height/2 * 0.8;
+        rgb = {
+            r: 0,
+            g: 95,
+            b: 203,
+        };
+
+        while (transparence == 50 && nearToDots(x, y)) {
+            //console.log("near");
+            y -= 10;
+        }
+
+        if (transparence == 50) {
+            dots.push({
+                "x": x,
+                "y": y
+            });
+        }
+        console.log(dots.length);
+        //console.log(dots);
+
+        if (transparence == 0) {
+            dots.shift();
+            //console.log(transparence);
+            ctx.clearRect(x - 4, y - 4, 8, 8);
+            return;
+        }
+
+        rgb.r += (255 - rgb.r) * 1 / transparence;
+        rgb.g += (255 - rgb.g) * 1 / transparence;
+        rgb.b += (255 - rgb.b) * 1 / transparence;
+
+        ctx.beginPath();
+        ctx.fillStyle = 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')';
+        ctx.clearRect(x - 4, y - 4, 8, 8)
+        ctx.arc(x, y /** 1/transparence*/, 3 * (transparence / 50), 0, 2 * Math.PI);
+        ctx.fill();
+
+        transparence = transparence - 1;
+
+        window.setTimeout( function () {
+            t.drawDot(n, y, transparence);
+            /*
+            ctx.beginPath();
+            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            ctx.arc(x, y, 4, 0, 2 * Math.PI);
+            ctx.fill();
+            */
+        },
+        velocity / 10
+        );
     };
 
 
