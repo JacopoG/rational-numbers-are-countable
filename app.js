@@ -23,6 +23,7 @@ var Animation = (function () {
         width,
         placeholderDistance = 100,
         velocity = 1000,
+        dotsAtSameTime = 10,
         dots = [];
 
 
@@ -94,7 +95,7 @@ var Animation = (function () {
 
 
     t.drawFraction = function (num, den) {
-        ctx.clearRect(width * 0.1 - 30, height * 0.1 - 30, 100, 100);
+        ctx.clearRect(width * 0.1 - 30, height * 0.1 - 30, 60, 80);
         ctx.fillStyle = "#adadad";
         ctx.font = "30px Lato";
         ctx.textAlign = "center"; ctx.fillText(num, width * 0.1, height * 0.1);
@@ -126,14 +127,12 @@ var Animation = (function () {
 
 
 
-    var nearToDots = function (x, y) {
+    t.nearToOtherDots = function (x, y) {
         var near = false;
         dots.forEach( function (dot, index) {
             var distance;
             distance = Math.sqrt(Math.pow(Math.abs(dot.x - x), 2) + Math.pow(Math.abs(dot.y - y), 2));
-            //console.log(dot);
             if (distance < 10) {
-                //console.log(distance);
                 near = true;
             }
         });
@@ -143,9 +142,10 @@ var Animation = (function () {
 
 
 
-    t.drawDot = function (n, y, transparence) {
+    t.drawDot = function (n, y, visibilityLevel, isNewDot) {
         var x, rgb;
-        transparence = (transparence == undefined) ? 5 * 10 : transparence;
+        isNewDot = (isNewDot == undefined) ? true : isNewDot;
+        visibilityLevel = (visibilityLevel == undefined) ? dotsAtSameTime : visibilityLevel;
         x = (n + 2) * placeholderDistance;
         y = y || height/2 * 0.8;
         rgb = {
@@ -154,50 +154,56 @@ var Animation = (function () {
             b: 203,
         };
 
-        while (transparence == 50 && nearToDots(x, y)) {
-            //console.log("near");
+        if (dots.length > dotsAtSameTime) {
+            console.warn("too dots in memory: " + dots.length);
+        }
+
+        //when draw the dot at full visibility level,
+        //if is too near other dots,
+        //move the dot above
+        while (isNewDot && t.nearToOtherDots(x, y)) {
             y -= 10;
         }
 
-        if (transparence == 50) {
+        //first time I draw a dot,
+        //I add it to the array
+        if (isNewDot) {
             dots.push({
                 "x": x,
                 "y": y
             });
         }
-        console.log(dots.length);
-        //console.log(dots);
 
-        if (transparence == 0) {
+        //last time I draw the dot,
+        //now can be removed
+        if (visibilityLevel == 0) {
             dots.shift();
-            //console.log(transparence);
             ctx.clearRect(x - 4, y - 4, 8, 8);
             return;
         }
 
-        rgb.r += (255 - rgb.r) * 1 / transparence;
-        rgb.g += (255 - rgb.g) * 1 / transparence;
-        rgb.b += (255 - rgb.b) * 1 / transparence;
+        rgb.r += (255 - rgb.r) * 1 / visibilityLevel;
+        rgb.g += (255 - rgb.g) * 1 / visibilityLevel;
+        rgb.b += (255 - rgb.b) * 1 / visibilityLevel;
 
+        //drawing
         ctx.beginPath();
         ctx.fillStyle = 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')';
-        ctx.clearRect(x - 4, y - 4, 8, 8)
-        ctx.arc(x, y /** 1/transparence*/, 3 * (transparence / 50), 0, 2 * Math.PI);
+        ctx.clearRect(x - 4, y - 4, 8, 8); //clean up the previous status
+        ctx.arc(x, y, 3 * (visibilityLevel / dotsAtSameTime), 0, 2 * Math.PI);
         ctx.fill();
 
-        transparence = transparence - 1;
+        visibilityLevel = visibilityLevel - 1;
 
-        window.setTimeout( function () {
-            t.drawDot(n, y, transparence);
-            /*
-            ctx.beginPath();
-            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-            ctx.arc(x, y, 4, 0, 2 * Math.PI);
-            ctx.fill();
-            */
-        },
-        velocity / 10
+        window.setTimeout(
+
+            function () {
+                t.drawDot(n, y, visibilityLevel, false);
+            },
+
+            velocity
         );
+
     };
 
 
