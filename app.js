@@ -182,14 +182,14 @@ var Animation = (function () {
             return;
         }
 
-        rgb.r += (255 - rgb.r) * 1 / visibilityLevel;
-        rgb.g += (255 - rgb.g) * 1 / visibilityLevel;
-        rgb.b += (255 - rgb.b) * 1 / visibilityLevel;
+        rgb.r += Math.round((255 - rgb.r) * 1 / visibilityLevel);
+        rgb.g += Math.round((255 - rgb.g) * 1 / visibilityLevel);
+        rgb.b += Math.round((255 - rgb.b) * 1 / visibilityLevel);
 
         //drawing
+        ctx.clearRect(x - 4, y - 4, 8, 8); //clean up the previous status
         ctx.beginPath();
         ctx.fillStyle = 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')';
-        ctx.clearRect(x - 4, y - 4, 8, 8); //clean up the previous status
         ctx.arc(x, y, 3 * (visibilityLevel / dotsAtSameTime), 0, 2 * Math.PI);
         ctx.fill();
 
