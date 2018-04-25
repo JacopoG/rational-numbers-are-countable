@@ -21,7 +21,7 @@ canvas {
     margin-right: auto;
     position: absolute;
     right: 0;
-    top: 8vh;
+    top: 4vh;
     text-align: center;
 }
 
@@ -64,11 +64,18 @@ canvas {
     padding: 0;
 }
 
+.velocity-form h2 {
+    color: #629BDC;
+    font-weight: normal;
+    margin: 0 0 10px;
+    font-size: 28px;
+}
+
 .velocity-form h3 {
     font-weight: normal;
     text-align: center;
     color: #629BDC;
-    font-size: 28px;
+    font-size: 24px;
     margin: 0 0 10px;
 }
 
