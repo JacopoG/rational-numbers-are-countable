@@ -1,1 +1,1 @@
-https://github.com/JacopoG/rational-numbers-are-countable
+https://jacopog.github.io/rational-numbers-are-countable/
